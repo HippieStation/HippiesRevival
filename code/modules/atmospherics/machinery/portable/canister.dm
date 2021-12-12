@@ -425,8 +425,8 @@ GLOBAL_LIST_INIT(gas_id_to_canister, init_gas_id_to_canister())
 	qdel(src)
 
 /obj/machinery/portable_atmospherics/canister/welder_act(mob/living/user, obj/item/I)
-	. = ..()
-	if(user.combat_mode)
+	..()
+	if(user.a_intent == INTENT_HARM)
 		return FALSE
 
 	if(!I.tool_start_check(user, amount=0))

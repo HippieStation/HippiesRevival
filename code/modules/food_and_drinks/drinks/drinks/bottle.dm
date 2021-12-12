@@ -67,6 +67,9 @@
 /obj/item/reagent_containers/food/drinks/bottle/attack_secondary(atom/target, mob/living/user, params)
 
 	if(!target)
+		return
+
+	if(user.a_intent != INTENT_HARM || !isGlass)
 		return ..()
 
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
