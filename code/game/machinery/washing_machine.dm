@@ -279,7 +279,7 @@ GLOBAL_LIST_INIT(dye_registry, list(
 	if(panel_open)
 		. += "wm_panel"
 
-/obj/machinery/washing_machine/attackby(obj/item/W, mob/living/user, params)
+/obj/machinery/washing_machine/attackby(obj/item/W, mob/user, params)
 	if(panel_open && !busy && default_unfasten_wrench(user, W))
 		return
 
@@ -287,7 +287,7 @@ GLOBAL_LIST_INIT(dye_registry, list(
 		update_appearance()
 		return
 
-	else if(!user.combat_mode)
+	else if(user.a_intent != INTENT_HARM)
 		if (!state_open)
 			to_chat(user, "<span class='warning'>Open the door first!</span>")
 			return TRUE
@@ -310,7 +310,7 @@ GLOBAL_LIST_INIT(dye_registry, list(
 	else
 		return ..()
 
-/obj/machinery/washing_machine/attack_hand(mob/living/user, list/modifiers)
+/obj/machinery/washing_machine/attack_hand(mob/user)
 	. = ..()
 	if(.)
 		return
@@ -318,7 +318,7 @@ GLOBAL_LIST_INIT(dye_registry, list(
 		to_chat(user, "<span class='warning'>[src] is busy!</span>")
 		return
 
-	if(user.pulling && isliving(user.pulling))
+	if(user.pulling && user.a_intent == INTENT_GRAB && isliving(user.pulling))
 		var/mob/living/L = user.pulling
 		if(L.buckled || L.has_buckled_mobs())
 			return
